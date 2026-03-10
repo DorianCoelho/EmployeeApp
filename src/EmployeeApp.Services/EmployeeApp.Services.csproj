@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EmployeeApp.Domain.Core\EmployeeApp.Domain.Core.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Infrastructure.Contracts\EmployeeApp.Infrastructure.Contracts.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Infrastructure.Data\EmployeeApp.Infrastructure.Data.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Services.Contracts\EmployeeApp.Services.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Mapster" Version="10.0.0-pre02" />
+      <PackageReference Include="Mapster.Core" Version="10.0.0-pre02" />
+      <PackageReference Include="Mapster.DependencyInjection" Version="10.0.0-pre02" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\10.0.3\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

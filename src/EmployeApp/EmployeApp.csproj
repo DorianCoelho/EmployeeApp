@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EmployeeApp.Domain.Core\EmployeeApp.Domain.Core.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Infrastructure.Contracts\EmployeeApp.Infrastructure.Contracts.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Infrastructure.Data\EmployeeApp.Infrastructure.Data.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Services.Contracts\EmployeeApp.Services.Contracts.csproj" />
+      <ProjectReference Include="..\EmployeeApp.Services\EmployeeApp.Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.3" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="10.0.3" />
+    </ItemGroup>
+
+</Project>
