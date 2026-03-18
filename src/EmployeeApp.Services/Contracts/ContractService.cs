@@ -1,4 +1,3 @@
-using EmployeeApp.Domain.Core.Entities.Contracts;
 using EmployeeApp.Infrastructure.Contracts;
 using EmployeeApp.Infrastructure.Contracts.ContractHistories;
 using EmployeeApp.Infrastructure.Contracts.Contracts;

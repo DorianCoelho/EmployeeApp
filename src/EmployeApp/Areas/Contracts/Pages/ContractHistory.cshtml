@@ -28,16 +28,6 @@
                asp-route-id="@Model.EmployeeId">
                 <i class="bi bi-arrow-left me-1"></i>Volver
             </a>
-
-            @if (Model.EmployeeId > 0)
-            {
-                <a class="btn btn-outline-primary"
-                   asp-page="/EmployeeCard"
-                   asp-area="Employees"
-                   asp-route-id="@Model.EmployeeId">
-                    <i class="bi bi-person-lines-fill me-1"></i>Ficha empleado
-                </a>
-            }
         </div>
     </div>
 

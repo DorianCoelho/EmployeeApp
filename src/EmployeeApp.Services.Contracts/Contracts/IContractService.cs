@@ -1,6 +1,5 @@
 using EmployeeApp.Services.Contracts.Contracts.Dto;
 using EmployeeApp.Services.Contracts.Contracts.Request;
-using EmployeeApp.Services.Contracts.Employees.Dto;
 
 namespace EmployeeApp.Services.Contracts.Contracts;
 

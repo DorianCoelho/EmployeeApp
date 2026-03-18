@@ -1,5 +1,7 @@
 using FluentNHibernate.Mapping;
 
+namespace EmployeeApp.Infrastructure.Data.Mappings;
+
 public class UserMapping : ClassMap<User>
 {
     public UserMapping()

@@ -1,6 +1,5 @@
 using System.Globalization;
 using EmployeApp;
-using EmployeeApp.Infrastructure.Data;
 using EmployeeApp.Infrastructure.Data.Seeders;
 using EmployeeApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -32,13 +31,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddMappings();
 builder.Services.AddFluentValidators();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 var app = builder.Build();
 
 // Crear/actualizar tablas en la BD al arrancar (desde los mappings de NHibernate)
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
     var sessionFactory = scope.ServiceProvider.GetRequiredService<ISessionFactory>();
     await DataSeeder.SeedAdminUser(sessionFactory);

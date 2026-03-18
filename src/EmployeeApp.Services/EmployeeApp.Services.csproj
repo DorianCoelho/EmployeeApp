@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -25,5 +25,15 @@
         <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\10.0.3\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
       </Reference>
     </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Mappers\"/>
+    </ItemGroup>
+
+    <!-- Genera los .g.cs de los [Mapper] en Mappers/ al compilar (Mapster.Tool) -->
+    <Target Name="GenerateMapsterMappers" AfterTargets="AfterBuild">
+        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore"/>
+        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -o Mappers"/>
+    </Target>
 
 </Project>

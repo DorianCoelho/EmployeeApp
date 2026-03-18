@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace EmployeApp.Areas.Employees.Pages;
 
 [Authorize]
-public class EmployeeCard(IUnitOfService service, EmployeeDto employee) : PageModel
+public class EmployeeCard(IUnitOfService service) : PageModel
 {
     [BindProperty(SupportsGet = true, Name = "id")]
     public int Id { get; set; }
 
-    public EmployeeDto Employee { get; set; } = employee;
+    public EmployeeDto Employee { get; set; } = null!;
 
     public List<ContractDto> Contracts { get; set; } = [];
 

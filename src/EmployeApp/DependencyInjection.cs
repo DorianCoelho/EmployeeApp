@@ -1,5 +1,3 @@
-using EmployeeApp.Services.Contracts.ContractHistories.Request;
-using EmployeeApp.Services.Contracts.ContractHistories.Validations;
 using EmployeeApp.Services.Contracts.Contracts.Request;
 using EmployeeApp.Services.Contracts.Contracts.Validations;
 using EmployeeApp.Services.Contracts.Employees.Request;
@@ -22,9 +20,16 @@ public static class DependencyInjection
             .AddTransient<IValidator<GetEmployeeRequest>, GetEmployeeRequestValidator>()
             .AddTransient<IValidator<CreateEmployeeRequest>, CreateEmployeeRequestValidator>()
             .AddTransient<IValidator<CreateContractRequest>, CreateContractRequestValidator>()
-            .AddTransient<IValidator<CreateContractHistoryRequest>, CreateContractHistoryRequestValidator>()
             .AddTransient<IValidator<EditContractRequest>, EditContractRequestValidator>()
             .AddTransient<IValidator<AuthRequest>, AuthRequestValidator>();
+        services.AddScoped<IMapper, ServiceMapper>();
+    }
+
+    public static void AddMappings(this IServiceCollection services)
+    {
+        TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
+
+        services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
     }
 }

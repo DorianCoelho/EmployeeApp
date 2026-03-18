@@ -1,5 +1,4 @@
 using EmployeeApp.Domain.Core.Entities.ContractHistories;
-using EmployeeApp.Services.Contracts.ContractHistories;
 using EmployeeApp.Services.Contracts.ContractHistories.Dto;
 using Mapster;
 

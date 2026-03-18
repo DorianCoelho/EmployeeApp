@@ -1,5 +1,3 @@
-using EmployeeApp.Services.Contracts.Users.Dto;
-
 namespace EmployeeApp.Services.Contracts.Users;
 
 public interface IUserService

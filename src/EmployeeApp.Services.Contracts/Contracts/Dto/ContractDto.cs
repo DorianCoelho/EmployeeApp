@@ -1,6 +1,4 @@
 using EmployeeApp.Domain.Core.Entities.Contracts;
-using EmployeeApp.Services.Contracts.ContractHistories.Dto;
-using EmployeeApp.Services.Contracts.Employees;
 using EmployeeApp.Services.Contracts.Employees.Dto;
 
 namespace EmployeeApp.Services.Contracts.Contracts.Dto;
