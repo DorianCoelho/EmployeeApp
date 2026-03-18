@@ -1,0 +1,144 @@
+@page "/employee-card/{id:int}"
+@model EmployeApp.Areas.Employees.Pages.EmployeeCard
+
+<div class="container-fluid px-4 mt-4">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">Detalles del Empleado</h2>
+            <p class="text-muted mb-0">Ver detalles del empleado y su respectivos contratos</p>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title">@Model.Employee.FirstName @Model.Employee.LastName</h5>
+                    <p class="card-text"><i class="bi bi-envelope me-1"></i> @Model.Employee.Email</p>
+                    <p class="card-text"><i class="bi bi-telephone me-1"></i> @Model.Employee.PhoneNumber</p>
+                    <p class="card-text"><i class="bi bi-person-vcard-fill me-1"></i> @Model.Employee.CassNumber</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="card-text"><i class="bi bi-geo-alt-fill me-1"></i> @Model.Employee.Address</p>
+                    <p class="card-text"><i class="bi bi-geo-fill me-1"></i> @Model.Employee.City</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h4 class="fw-bold mb-0">Contratos del Empleado</h4>
+            <p class="text-muted mb-0">Lista de todos los contratos</p>
+        </div>
+        <a asp-area="Contracts" asp-page="/CreateContract" asp-route-employeeId="@Model.Id"
+           class="btn btn-primary shadow-sm px-4">
+            <i class="bi bi-file-earmark-plus-fill me-2"></i>Crear Contrato
+        </a>
+    </div>
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-file-earmark-text me-2"></i>Contratos
+                </h5>
+
+                <span class="text-muted small">
+                @Model.Contracts.Count contrato(s)
+            </span>
+            </div>
+
+            @if (Model.Contracts.Any())
+            {
+                <div class="row g-3">
+                    @foreach (var item in Model.Contracts)
+                    {
+                        var badgeClass = item.Status.ToString() switch
+                        {
+                            "Active" => "bg-success",
+                            "Inactive" => "bg-secondary",
+                            "Cancelled" => "bg-danger",
+                            _ => "bg-warning text-dark"
+                        };
+
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3 bg-light-subtle">
+
+                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            Contrato <span class="text-muted">#@item.Id</span>
+                                        </h6>
+
+                                        <div class="text-muted small">
+                                            <i class="bi bi-briefcase me-1"></i>
+                                            @item.JobTitle
+                                        </div>
+                                    </div>
+
+                                    <span class="badge rounded-pill @badgeClass border px-3 py-2">
+                                    @item.Status
+                                </span>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3 small">
+                                    <div>
+                                        <i class="bi bi-calendar-event me-1"></i>
+                                        <strong>Inicio:</strong> @item.StartDate.ToShortDateString()
+                                    </div>
+
+                                    <div>
+                                        <i class="bi bi-calendar-event me-1"></i>
+                                        <strong>Fin:</strong> @(item.EndDate?.ToShortDateString() ?? "N/A")
+                                    </div>
+
+                                    <div>
+                                        <i class="bi bi-currency-euro me-1"></i>
+                                        <strong>Salario:</strong> @item.Salary.ToString("C")
+                                    </div>
+
+                                    <div>
+                                        <i class="bi bi-clock me-1"></i>
+                                        <strong>Horas/sem:</strong> @item.WeeklyHours
+                                    </div>
+
+                                    <div>
+                                        <i class="bi bi-tag me-1"></i>
+                                        <strong>Tipo:</strong> @item.Type
+                                    </div>
+                                </div>
+
+                                <hr class="my-3"/>
+
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-area="Contracts"
+                                       asp-page="/EditContract"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-secondary px-3">
+                                        <i class="bi bi-pencil-square me-1"></i>Editar
+                                    </a>
+
+                                    <a asp-area="Contracts"
+                                       asp-page="/ContractHistory"
+                                       asp-route-contractId="@item.Id"
+                                       class="btn btn-sm btn-primary px-3">
+                                        <i class="bi bi-eye me-1"></i>Ver Historial
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-light border mb-0">
+                    <i class="bi bi-info-circle me-1"></i>
+                    No hay contratos disponibles para este empleado.
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,20 +1,33 @@
+using System.Globalization;
 using EmployeApp;
 using EmployeeApp.Infrastructure.Data;
 using EmployeeApp.Infrastructure.Data.Seeders;
 using EmployeeApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using NHibernate;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+var culture = new CultureInfo("es-ES");
+
+var supportedCultures = new[] { culture };
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(culture);
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-    options.LoginPath = "/Index";
-    options.AccessDeniedPath = "/Error";
-    options.Cookie.Name = "UserSessionCookie";
-});
+        options.LoginPath = "/Index";
+        options.AccessDeniedPath = "/Error";
+        options.Cookie.Name = "UserSessionCookie";
+    });
 
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
@@ -28,7 +41,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var sessionFactory = scope.ServiceProvider.GetRequiredService<ISessionFactory>();
-    await DataSeeder.SeedAdminUser(sessionFactory);}
+    await DataSeeder.SeedAdminUser(sessionFactory);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -38,11 +52,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseRequestLocalization();
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

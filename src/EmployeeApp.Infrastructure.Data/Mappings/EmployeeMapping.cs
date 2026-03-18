@@ -16,7 +16,9 @@ public class EmployeeMapping : ClassMap<Employee>
         Map(x => x.FirstName).Not.Nullable().Length(100);
         Map(x => x.LastName).Not.Nullable().Length(100);
         Map(x => x.Email).Not.Nullable().Unique().Length(150);
-        Map(x => x.PhoneNumber).Nullable().Length(20);
+        Map(x => x.PhoneNumber).Not.Nullable().Length(20);
+        Map(x => x.Address).Not.Nullable().Length(200);
+        Map(x => x.City).Not.Nullable().Length(100);
 
 
         Map(x => x.CassNumber).Not.Nullable().Unique().Length(20);
