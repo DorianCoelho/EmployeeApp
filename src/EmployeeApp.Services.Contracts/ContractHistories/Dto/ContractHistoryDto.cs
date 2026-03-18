@@ -9,16 +9,21 @@ public class ContractHistoryDto
     public int Id { get; set; }
 
     public int ContractId { get; set; }
-    
-    public virtual ContractDto Contract { get; set; } = null!; 
+
+    public virtual ContractDto Contract { get; set; } = null!;
 
     public decimal Salary { get; set; }
-    
+
     public string JobTitle { get; set; } = null!;
-    
+
+    public int WeeklyHours { get; set; }
+
     public ContractType Type { get; set; }
+    public ContractStatus Status { get; set; }
+
+    public WorkDayType WorkDayType { get; set; }
 
     public DateTime ChangeDate { get; set; } = DateTime.Now;
-    
+
     public string? Reason { get; set; }
 }

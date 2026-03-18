@@ -14,7 +14,13 @@ public class ContractHistory : BaseModel
 
     public virtual string JobTitle { get; set; } = null!;
 
+    public virtual int WeeklyHours { get; set; }
+
     public virtual ContractType Type { get; set; }
+
+    public virtual ContractStatus Status { get; set; }
+
+    public virtual WorkDayType WorkDayType { get; set; }
 
     public virtual DateTime ChangeDate { get; set; } = DateTime.Now;
 

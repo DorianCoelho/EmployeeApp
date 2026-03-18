@@ -10,7 +10,9 @@ public interface IContractUnitOfWork
     IContractRepository Contracts { get; }
     IEmployeeRepository Employees { get; }
     IContractHistoryRepository ContractHistory { get; }
-    
     IUserRepository Users { get; }
-    Task SaveAsync();
+
+    Task BeginAsync();
+    Task CommitAsync();
+    Task RollbackAsync();
 }

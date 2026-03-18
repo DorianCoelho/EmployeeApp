@@ -7,28 +7,28 @@ namespace EmployeeApp.Services.Contracts.Contracts.Dto;
 
 public class ContractDto
 {
-    public  int Id { get; set; }
-    
-    public  int EmployeeId { get; set; }
-    
-    public  EmployeeDto Employee { get; set; } = null!;
+    public int Id { get; set; }
 
-    public  DateTime StartDate { get; set; }
+    public int EmployeeId { get; set; }
 
-    public  DateTime? EndDate { get; set; }
+    public EmployeeDto Employee { get; set; } = null!;
 
-    public  string JobTitle { get; set; } = null!;
+    public DateTime StartDate { get; set; }
 
-    public  decimal Salary { get; set; }
-    public  decimal WeeklyHours { get; set; }
+    public DateTime? EndDate { get; set; }
 
-    public  ContractType Type { get; set; }
-    public  ContractStatus Status { get; set; }
+    public string JobTitle { get; set; } = null!;
 
-    public  WorkDayType WorkDayType { get; set; }
+    public decimal Salary { get; set; }
+    public int WeeklyHours { get; set; }
 
-    public  bool IsCurrentlyActive => Status == ContractStatus.Active &&
-                                             (EndDate == null || EndDate >= DateTime.Now);
+    public ContractType Type { get; set; }
+    public ContractStatus Status { get; set; }
 
-    public  IList<ContractHistoryDto> History { get; set; } = new List<ContractHistoryDto>();
+    public WorkDayType WorkDayType { get; set; }
+
+    public bool IsCurrentlyActive => Status == ContractStatus.Active &&
+                                     (EndDate == null || EndDate >= DateTime.Now);
+
+    //public  IList<ContractHistoryDto> History { get; set; } = new List<ContractHistoryDto>();
 }

@@ -1,0 +1,182 @@
+@page "/contract-history/{contractId:int}"
+@model EmployeApp.Areas.Contracts.Pages.ContractHistory
+@{
+    ViewData["Title"] = "Histórico del contrato";
+}
+
+<div class="container-xxl mt-4">
+    <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3">
+        <div>
+            <h2 class="mb-1">
+                <i class="bi bi-clock-history me-2"></i>Histórico del contrato
+            </h2>
+            <div class="text-muted">
+                Contrato #@Model.ContractId
+                @if (Model.EmployeeName is not null)
+                {
+                    <span class="mx-2">•</span>
+                    <i class="bi bi-person-badge me-1"></i>
+                    @Model.EmployeeName
+                }
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary"
+               asp-page="/EmployeeCard"
+               asp-area="Employees"
+               asp-route-id="@Model.EmployeeId">
+                <i class="bi bi-arrow-left me-1"></i>Volver
+            </a>
+
+            @if (Model.EmployeeId > 0)
+            {
+                <a class="btn btn-outline-primary"
+                   asp-page="/EmployeeCard"
+                   asp-area="Employees"
+                   asp-route-id="@Model.EmployeeId">
+                    <i class="bi bi-person-lines-fill me-1"></i>Ficha empleado
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (!Model.History.Any())
+    {
+        <div class="alert alert-light border shadow-sm">
+            <i class="bi bi-info-circle me-1"></i>
+            No hay histórico disponible para este contrato.
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+
+            <!-- Resumen -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-card-checklist me-2"></i>Resumen
+                        </h5>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Entradas</span>
+                            <strong>@Model.History.Count</strong>
+                        </div>
+                        <hr/>
+
+                        <div class="small text-muted mb-2">Último estado</div>
+
+                        @{
+                            var last = Model.History.First(); // viene ordenado desc
+                        }
+
+                        <div class="d-flex flex-column gap-2">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Fecha</span>
+                                <strong>@last.ChangeDate.ToString("dd/MM/yyyy HH:mm")</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Puesto</span>
+                                <strong>@last.JobTitle</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Salario</span>
+                                <strong>@last.Salary.ToString("C", Model.EuroCulture)</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Horas/sem</span>
+                                <strong>@last.WeeklyHours</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Tipo</span>
+                                <strong>@last.Type</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Estado</span>
+                                <strong>@last.Status</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Jornada</span>
+                                <strong>@last.WorkDayType</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-list-timeline me-2"></i>Timeline de cambios
+                        </h5>
+
+                        <div class="vstack gap-3">
+                            @foreach (var item in Model.History)
+                            {
+                                var badge = item.Status.ToString() switch
+                                {
+                                        "Active" => "bg-success",
+                                        "Inactive" => "bg-secondary",
+                                        "Cancelled" => "bg-danger",
+                                        _ => "bg-warning text-dark"
+                                };
+
+                                <div class="border rounded-3 p-3">
+                                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                        <div>
+                                            <div class="text-muted small">
+                                                <i class="bi bi-calendar-event me-1"></i>
+                                                @item.ChangeDate.ToString("dd/MM/yyyy HH:mm")
+                                                <span class="mx-2">•</span>
+                                                <i class="bi bi-hash me-1"></i>Hist #@item.Id
+                                            </div>
+
+                                            <div class="fw-semibold mt-1">
+                                                @item.JobTitle
+                                            </div>
+                                        </div>
+
+                                        <span class="badge rounded-pill @badge px-3 py-2">
+                                            @item.Status
+                                        </span>
+                                    </div>
+
+                                    <div class="d-flex flex-wrap gap-3 small mt-2">
+                                        <div>
+                                            <i class="bi bi-currency-euro me-1"></i>
+                                            <strong>Salario:</strong> @item.Salary.ToString("C", Model.EuroCulture)
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-clock me-1"></i>
+                                            <strong>Horas/sem:</strong> @item.WeeklyHours
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-tag me-1"></i>
+                                            <strong>Tipo:</strong> @item.Type
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-person-workspace me-1"></i>
+                                            <strong>Jornada:</strong> @item.WorkDayType
+                                        </div>
+                                    </div>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.Reason))
+                                    {
+                                        <div class="mt-2 small text-muted">
+                                            <i class="bi bi-chat-left-text me-1"></i>
+                                            <strong>Motivo:</strong> @item.Reason
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

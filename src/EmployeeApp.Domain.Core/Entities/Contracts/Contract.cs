@@ -6,9 +6,9 @@ namespace EmployeeApp.Domain.Core.Entities.Contracts;
 public class Contract : BaseModel
 {
     public virtual int Id { get; set; }
-    
+
     public virtual int EmployeeId { get; set; }
-    
+
     public virtual Employee Employee { get; set; } = null!;
 
     public virtual DateTime StartDate { get; set; }
@@ -18,7 +18,7 @@ public class Contract : BaseModel
     public virtual string JobTitle { get; set; } = null!;
 
     public virtual decimal Salary { get; set; }
-    public virtual decimal WeeklyHours { get; set; }
+    public virtual int WeeklyHours { get; set; }
 
     public virtual ContractType Type { get; set; }
     public virtual ContractStatus Status { get; set; }
