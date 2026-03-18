@@ -8,17 +8,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EmployeApp.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel(IUserService userService) : PageModel
 {
-    private readonly IUserService _userService;
+    [BindProperty] public AuthRequest AuthRequest { get; set; } = new();
 
-    public IndexModel(IUserService userService)
-    {
-        _userService = userService;
-    }
-
-    [BindProperty] public AuthRequest AuthRequest { get; set; }
-    
     public async Task<IActionResult> OnPostAsync([FromServices] IValidator<AuthRequest> validator)
     {
         ValidationResult validationResult = await validator.ValidateAsync(AuthRequest);
@@ -27,14 +20,15 @@ public class IndexModel : PageModel
             validationResult.AddToModelState(ModelState, requestName: nameof(AuthRequest));
             return Page();
         }
-        
-        bool isAuthenticated = await _userService.AuthenticateAsync(email:AuthRequest.Email, password:AuthRequest.Password);
+
+        bool isAuthenticated =
+            await userService.AuthenticateAsync(email: AuthRequest.Email, password: AuthRequest.Password);
         if (!isAuthenticated)
         {
             ModelState.AddModelError(string.Empty, "Correo o contraseña incorrectos.");
             return Page();
         }
-        
-        return RedirectToPage("EmployeeList", new {area = "Employees"});
+
+        return RedirectToPage("EmployeeList", new { area = "Employees" });
     }
 }

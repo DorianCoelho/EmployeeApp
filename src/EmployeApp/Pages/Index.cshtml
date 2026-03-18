@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model IndexModel
 @{
     Layout = "_Layout";
@@ -19,7 +19,8 @@
                         <p class="text-muted">Ingresa tus credenciales</p>
                     </div>
 
-                    <form method="post" asp-page="LoginAdmin" asp-antiforgery="true" class="needs-validation" novalidate id="login-form">
+                    <form method="post" asp-page="/Index" asp-antiforgery="true" class="needs-validation" novalidate
+                          id="login-form">
                         <div class="form-floating mb-3">
                             <input asp-for="AuthRequest.Email" class="form-control" id="emailaddress" 
                                     autocomplete="username" required />
