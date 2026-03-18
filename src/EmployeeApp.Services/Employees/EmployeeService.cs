@@ -1,3 +1,4 @@
+using EmployeeApp.Domain.Core.Entities.Employees;
 using EmployeeApp.Infrastructure.Contracts;
 using EmployeeApp.Infrastructure.Contracts.Employees;
 using EmployeeApp.Services.Contracts.Employees;
@@ -27,7 +28,12 @@ public class EmployeeService : IEmployeeService
 
     public async Task<EmployeeDto> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        Employee employee = await _unitOfWork.Employees.GetByIdAsync(id);
+        if (employee is null)
+            throw new KeyNotFoundException($"Employee with ID {id} not found.");
+
+
+        return _mapper.Map<EmployeeDto>(employee);
     }
 
     public async Task AddAsync(CreateEmployeeRequest employee)

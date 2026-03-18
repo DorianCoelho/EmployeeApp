@@ -7,7 +7,7 @@ namespace EmployeeApp.Infrastructure.Data.Areas.Employees;
 
 public class EmployeeRepository : IEmployeeRepository
 {
-    private readonly ISession  _session;
+    private readonly ISession _session;
 
     public EmployeeRepository(ISession session)
     {
@@ -16,7 +16,7 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<Employee> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _session.GetAsync<Employee>(id);
     }
 
     public async Task SaveAsync(Employee entity)
@@ -24,16 +24,35 @@ public class EmployeeRepository : IEmployeeRepository
         throw new NotImplementedException();
     }
 
+    public async Task<Employee> UpdateAsync(Employee entity)
+    {
+        var existing = await _session.GetAsync<Employee>(entity.Id);
+        if (existing is null)
+            throw new KeyNotFoundException($"Employee with ID {entity.Id} not found.");
+
+
+        existing.FirstName = entity.FirstName;
+        existing.LastName = entity.LastName;
+        existing.Email = entity.Email;
+        existing.PhoneNumber = entity.PhoneNumber;
+        existing.CassNumber = entity.CassNumber;
+
+        await _session.FlushAsync();
+
+        return existing;
+    }
+
     public async Task<List<Employee>> GetAllAsync()
     {
         return await _session.Query<Employee>()
+            .FetchMany(e => e.Contracts)
             .OrderBy(e => e.LastName)
             .ToListAsync();
     }
-    
+
     public async Task AddAsync(CreateEmployeeFilter request)
     {
-        var entity = new Employee 
+        var entity = new Employee
         {
             FirstName = request.FirstName,
             LastName = request.LastName,
@@ -42,7 +61,8 @@ public class EmployeeRepository : IEmployeeRepository
             Address = request.Address,
             City = request.City,
             CassNumber = request.CassNumber,
-            //IsActive = true // Propiedad que definimos antes
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
         using (var transaction = _session.BeginTransaction())
         {
@@ -54,7 +74,7 @@ public class EmployeeRepository : IEmployeeRepository
             catch
             {
                 await transaction.RollbackAsync();
-                throw; 
+                throw;
             }
         }
     }

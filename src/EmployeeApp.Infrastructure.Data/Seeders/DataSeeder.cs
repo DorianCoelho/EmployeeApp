@@ -12,13 +12,13 @@ public static class DataSeeder
 
         // 1. Verificar si ya existe
         var existingUser = session.Query<User>()
-            .FirstOrDefault(u => u.Email == "User@dualimind.com");
+            .FirstOrDefault(u => u.Email == "Admin@employeeApp.com");
 
         if (existingUser == null)
         {
             var admin = new User
             {
-                Email = "User@dualimind.com",
+                Email = "Admin@employeeApp.com",
                 CreatedAt = DateTime.Now,
                 IsActive = true
             };
