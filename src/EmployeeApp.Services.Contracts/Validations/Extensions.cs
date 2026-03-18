@@ -5,6 +5,14 @@ namespace EmployeeApp.Services.Contracts.Validations;
 
 public static class Extensions
 {
+    public static void AddToModelState(this ValidationResult result, ModelStateDictionary modelState)
+    {
+        foreach (ValidationFailure? error in result.Errors)
+        {
+            modelState.AddModelError(error.PropertyName, error.ErrorMessage);
+        }
+    }
+
     public static void AddToModelState(this ValidationResult result, ModelStateDictionary modelState,
         string requestName)
     {
