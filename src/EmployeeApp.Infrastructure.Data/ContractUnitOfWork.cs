@@ -7,34 +7,25 @@ using NHibernate;
 
 namespace EmployeeApp.Infrastructure.Data;
 
-public class ContractUnitOfWork : IContractUnitOfWork
+public class ContractUnitOfWork(
+    ISession session,
+    IContractRepository contracts,
+    IEmployeeRepository employees,
+    IContractHistoryRepository history,
+    IUserRepository users)
+    : IContractUnitOfWork
 {
-    private readonly ISession _session;
     private ITransaction? _tx;
 
-    public ContractUnitOfWork(
-        ISession session,
-        IContractRepository contracts,
-        IEmployeeRepository employees,
-        IContractHistoryRepository history,
-        IUserRepository users)
-    {
-        _session = session;
-        Contracts = contracts;
-        Employees = employees;
-        ContractHistory = history;
-        Users = users;
-    }
-
-    public IContractRepository Contracts { get; }
-    public IEmployeeRepository Employees { get; }
-    public IContractHistoryRepository ContractHistory { get; }
-    public IUserRepository Users { get; }
+    public IContractRepository Contracts { get; } = contracts;
+    public IEmployeeRepository Employees { get; } = employees;
+    public IContractHistoryRepository ContractHistory { get; } = history;
+    public IUserRepository Users { get; } = users;
 
     public async Task BeginAsync()
     {
         if (_tx is null)
-            _tx = _session.BeginTransaction();
+            _tx = session.BeginTransaction();
         await Task.CompletedTask;
     }
 
@@ -45,7 +36,7 @@ public class ContractUnitOfWork : IContractUnitOfWork
 
         try
         {
-            await _session.FlushAsync();
+            await session.FlushAsync();
             await _tx.CommitAsync();
         }
         finally

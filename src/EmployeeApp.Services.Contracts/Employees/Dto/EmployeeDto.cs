@@ -1,5 +1,3 @@
-using EmployeeApp.Services.Contracts.Contracts.Dto;
-
 namespace EmployeeApp.Services.Contracts.Employees.Dto;
 
 public class EmployeeDto
